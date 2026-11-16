@@ -1,0 +1,5 @@
+.venv/
+.env
+chroma_db_bge_m3/
+__pycache__/
+.ipynb_checkpoints/
