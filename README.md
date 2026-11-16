@@ -2,6 +2,8 @@
 
 **Autor: Juan Cifuentes**
 
+**Fecha: noviembre de 2026**
+
 **Trabajo Integrador de Técnicas de Procesamiento de Habla, IFTS N.º 24, segundo cuatrimestre de 2026.**
 
 ---
@@ -18,11 +20,11 @@ Responde preguntas cuya respuesta está escrita en esas guías, por ejemplo qué
 
 Los PDF están en `datos/` y son copias de los originales, descargadas el 10/11/2026.
 
-| Archivo | Autoría | Origen | Fecha | Licencia |
-|---|---|---|---|---|
-| `owasp_top10_llm_2025.pdf` (OWASP Top 10 para Aplicaciones de LLM 2025) | OWASP GenAI Security Project | https://genai.owasp.org | 11/03/2025 | CC BY-SA 4.0 |
-| `aesia_guia11_ciberseguridad.pdf` (Guía 11: Ciberseguridad) | AESIA | https://aesia.digital.gob.es/storage/media/11-guia-ciberseguridad.pdf | 17/07/2026 | CC BY 4.0 |
-| `incibe_medidas_ia_frontera.pdf` (Medidas ante modelos de IA de frontera) | INCIBE | https://www.incibe.es/sites/default/files/2026-06/Medidas_ciberseguridad_ciberresiliencia_modelos_frontera.pdf | 17/06/2026 | CC BY-NC-SA 4.0 |
+| Archivo                                                                     | Autoría                     | Origen                                                                                                         | Fecha      | Licencia        |
+| --------------------------------------------------------------------------- | ---------------------------- | -------------------------------------------------------------------------------------------------------------- | ---------- | --------------- |
+| `owasp_top10_llm_2025.pdf` (OWASP Top 10 para Aplicaciones de LLM 2025)   | OWASP GenAI Security Project | https://genai.owasp.org                                                                                        | 11/03/2025 | CC BY-SA 4.0    |
+| `aesia_guia11_ciberseguridad.pdf` (Guía 11: Ciberseguridad)              | AESIA                        | https://aesia.digital.gob.es/storage/media/11-guia-ciberseguridad.pdf                                          | 17/07/2026 | CC BY 4.0       |
+| `incibe_medidas_ia_frontera.pdf` (Medidas ante modelos de IA de frontera) | INCIBE                       | https://www.incibe.es/sites/default/files/2026-06/Medidas_ciberseguridad_ciberresiliencia_modelos_frontera.pdf | 17/06/2026 | CC BY-NC-SA 4.0 |
 
 Las tres licencias permiten redistribuir citando la fuente. El trabajo no tiene fines comerciales, como pide la de INCIBE.
 
@@ -30,16 +32,16 @@ Las tres licencias permiten redistribuir citando la fuente. El trabajo no tiene 
 
 ## 3. Arquitectura
 
-| Orden | Componente | Librería y versión | Valor usado |
-|---|---|---|---|
-| 1 | `PyPDFLoader` | langchain-community 0.4.2 (pypdf 7.0.1) | 3 PDF de `datos/` |
-| 2 | `RecursiveCharacterTextSplitter` | langchain-text-splitters 1.1.3 | `chunk_size=800`, `chunk_overlap=120` |
-| 3 | `OllamaEmbeddings` | langchain-ollama 1.1.0 | bge-m3 |
-| 4 | `Chroma` | langchain-chroma 1.1.0 (chromadb 1.5.9) | Colección `seguridad_ia_bge_m3`, carpeta `chroma_db_bge_m3/` |
-| 5 | `similarity_search_with_score` | langchain-chroma 1.1.0 | `k=3` |
-| 6 | `ChatPromptTemplate` | langchain-core 1.7.7 | Prompt del cuaderno 04 del profesor (unidad 014), en mi cuaderno 03 y en `app.py` |
-| 7 | `ChatOllama` | langchain-ollama 1.1.0 | granite4:latest, `temperature=0` |
-| 8 | Gradio | gradio 6.31.0 | `python app.py` |
+| Orden | Componente                         | Librería y versión                    | Valor usado                                                                         |
+| ----- | ---------------------------------- | --------------------------------------- | ----------------------------------------------------------------------------------- |
+| 1     | `PyPDFLoader`                    | langchain-community 0.4.2 (pypdf 7.0.1) | 3 PDF de `datos/`                                                                 |
+| 2     | `RecursiveCharacterTextSplitter` | langchain-text-splitters 1.1.3          | `chunk_size=800`, `chunk_overlap=120`                                           |
+| 3     | `OllamaEmbeddings`               | langchain-ollama 1.1.0                  | bge-m3                                                                              |
+| 4     | `Chroma`                         | langchain-chroma 1.1.0 (chromadb 1.5.9) | Colección `seguridad_ia_bge_m3`, carpeta `chroma_db_bge_m3/`                   |
+| 5     | `similarity_search_with_score`   | langchain-chroma 1.1.0                  | `k=3`                                                                             |
+| 6     | `ChatPromptTemplate`             | langchain-core 1.7.7                    | Prompt del cuaderno 04 del profesor (unidad 014), en mi cuaderno 03 y en `app.py` |
+| 7     | `ChatOllama`                     | langchain-ollama 1.1.0                  | granite4:latest, `temperature=0`                                                  |
+| 8     | Gradio                             | gradio 6.31.0                           | `python app.py`                                                                   |
 
 Python 3.12 y Ollama 0.40.16.
 
@@ -83,13 +85,13 @@ El índice no se publica en GitHub porque está en `.gitignore`, igual que `.ven
 
 Las cinco preguntas están en `04_probar_el_rag.ipynb`. Anoté la fuente esperada antes de ejecutar y comparé cada respuesta con el PDF.
 
-| Pregunta | Fuente esperada | Fragmento recuperado [1] | Respuesta | Observación |
-|---|---|---|---|---|
-| ¿Qué es la inyección de prompt? | OWASP, p. 8 | OWASP, p. 8 (0,598) | Da la definición y cita [1]. | Correcta. El fragmento [3] es el índice de OWASP. |
-| ¿Qué exige el artículo 15 del Reglamento de IA sobre ciberseguridad? | AESIA, páginas 16 y 18 | AESIA, p. 16 (0,627) | Un nivel adecuado de ciberseguridad durante todo el ciclo de vida. Cita [1]. | Correcta pero incompleta, le falta «precisión y solidez». El fragmento [3] es el índice de AESIA. |
-| ¿Qué medidas se recomiendan para la gestión de identidades y accesos frente a ataques asistidos por IA? | INCIBE, p. 5 | INCIBE, p. 5 (0,660) | MFA obligatorio y métodos resistentes al phishing. Cita [1]. | Correcta. Nombra sólo la primera medida de la lista. |
-| ¿Cuántos ataques de inyección de prompt hubo en Argentina en 2025? | Ninguna | OWASP, p. 3 (índice) (0,820) | «No encuentro esa información en los documentos.» | Se abstuvo aunque recibió tres fragmentos. |
-| ¿Cuál es el modelo de IA más seguro del mercado? | Ninguna | INCIBE, p. 4 (0,907) | «No encuentro esa información en los documentos.» | Se abstuvo. |
+| Pregunta                                                                                                   | Fuente esperada         | Fragmento recuperado [1]      | Respuesta                                                                    | Observación                                                                                          |
+| ---------------------------------------------------------------------------------------------------------- | ----------------------- | ----------------------------- | ---------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| ¿Qué es la inyección de prompt?                                                                         | OWASP, p. 8             | OWASP, p. 8 (0,598)           | Da la definición y cita [1].                                                | Correcta. El fragmento [3] es el índice de OWASP.                                                    |
+| ¿Qué exige el artículo 15 del Reglamento de IA sobre ciberseguridad?                                    | AESIA, páginas 16 y 18 | AESIA, p. 16 (0,627)          | Un nivel adecuado de ciberseguridad durante todo el ciclo de vida. Cita [1]. | Correcta pero incompleta, le falta «precisión y solidez». El fragmento [3] es el índice de AESIA. |
+| ¿Qué medidas se recomiendan para la gestión de identidades y accesos frente a ataques asistidos por IA? | INCIBE, p. 5            | INCIBE, p. 5 (0,660)          | MFA obligatorio y métodos resistentes al phishing. Cita [1].                | Correcta. Nombra sólo la primera medida de la lista.                                                 |
+| ¿Cuántos ataques de inyección de prompt hubo en Argentina en 2025?                                      | Ninguna                 | OWASP, p. 3 (índice) (0,820) | «No encuentro esa información en los documentos.»                         | Se abstuvo aunque recibió tres fragmentos.                                                           |
+| ¿Cuál es el modelo de IA más seguro del mercado?                                                        | Ninguna                 | INCIBE, p. 4 (0,907)          | «No encuentro esa información en los documentos.»                         | Se abstuvo.                                                                                           |
 
 **Limitaciones observadas**
 
@@ -100,11 +102,11 @@ Las cinco preguntas están en `04_probar_el_rag.ipynb`. Anoté la fuente esperad
 
 ## 7. Decisiones y límites
 
-| Tema | Decisión | Motivo o límite |
-|---|---|---|
+| Tema           | Decisión                  | Motivo o límite                                                                                                                                              |
+| -------------- | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Fragmentación | 800 / 120 (480 fragmentos) | Probé 250, 500, 800 y 1100 (1515, 735, 480 y 364 fragmentos). Con 800 la definición de inyección de prompt y el artículo 15 quedan enteros (cuaderno 01). |
-| `k` | 3 | Valor del material de clase. Con 1 la respuesta no cambió. |
-| Embeddings | bge-m3 | Multilingüe. El mismo para indexar y para buscar. |
+| `k`          | 3                          | Valor del material de clase. Con 1 la respuesta no cambió.                                                                                                   |
+| Embeddings     | bge-m3                     | Multilingüe. El mismo para indexar y para buscar.                                                                                                            |
 
 ---
 
